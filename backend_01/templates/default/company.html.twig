@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    {{ include('partial/header.html.twig') }}
+{% endblock %}
+
+{% block body %}
+    <button><a href="{{ path('default_index_crear') }}">Añadir empresa</a></button>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Sector</th>          
+            </tr>
+        </thead>
+        <tbody>
+        {% for company in companies %}
+            <tr>
+                <td>{{ company.Nombre }}</td>
+                <td>{{ company.Telefono }}</td>
+                <td>{{ company.Email }}</td>
+                <td>{{ company.Sector }}</td>
+                <td><button><a href="{{ path('default_index_modificar', { id: company.id }) }}">Modificar</a></button></td>
+                <td><button><a href="{{ path('default_index_eliminar', { id: company.id }) }}">Eliminar</a></button></td
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
