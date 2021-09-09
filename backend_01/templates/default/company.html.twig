@@ -22,8 +22,8 @@
                 <td>{{ company.Telefono }}</td>
                 <td>{{ company.Email }}</td>
                 <td>{{ company.Sector }}</td>
-                <td><button><a href="{{ path('default_index_modificar', { id: company.id }) }}">Modificar</a></button></td>
-                <td><button><a href="{{ path('default_index_eliminar', { id: company.id }) }}">Eliminar</a></button></td
+                <td><button><a href="{{ path('default_index_modificar_empresa', { id: company.id }) }}">Modificar</a></button></td>
+                <td><button><a href="{{ path('default_index_confirmar_eliminar_empresa', { id: company.id }) }}">Eliminar</a></button></td>
             </tr>
         {% endfor %}
         </tbody>

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    {{ include('partial/header.html.twig') }}
+{% endblock %}
+
+{% block body %}
+    <p>¿Seguro que quiere eliminar el sector de la base de datos?</p>
+    <button><a href="{{ path('default_index_eliminar_sector') }}">Cancelar</a></button>
+    <button><a href="{{ path('default_index_eliminar_sector', { id: id }) }}">Eliminar</a></button>
+{% endblock %}

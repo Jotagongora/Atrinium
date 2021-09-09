@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Empresa;
+use App\Entity\Sector;
 use App\Form\EmpresaType;
+use App\Form\SectorType;
 use App\Repository\EmpresaRepository;
 use App\Repository\SectorRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,7 +52,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/crear", name="default_index_crear")
+     * @Route("/crear/empresa", name="default_index_crear")
      */
     public function createCompany(Request $request): Response
     {
@@ -77,7 +79,40 @@ class DefaultController extends AbstractController
     }
 
      /**
-     * @Route("/modificar", name="default_index_modificar")
+     * @Route("/crear/sector", name="default_index_crear_sector")
+     */
+    public function createSector(Request $request): Response
+    {
+        $sector = new Sector;
+
+        $form = $this->createForm(SectorType::class, $sector);
+
+        $form->handleRequest($request);
+
+        if ($form->get('Cancelar')->isClicked())
+        {
+            return $this->redirectToRoute('default_index_sector');
+        }
+
+        if ($form->isSubmitted())
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($sector);
+
+            $em->flush();
+
+            return $this->redirectToRoute('default_index_sector');
+        }
+
+        return $this->render('default/sectorForm.html.twig', [
+            'sectorForm' => $form->createView()
+        ]);
+    }
+
+
+     /**
+     * @Route("/modificar/empresa", name="default_index_modificar_empresa")
      */
     public function modifyCompany(Request $request, EmpresaRepository $empresaRepository): Response
     {
@@ -86,6 +121,11 @@ class DefaultController extends AbstractController
         $form = $this->createForm(EmpresaType::class, $empresa);
 
         $form->handleRequest($request);
+
+        if ($form->get('Cancelar')->isClicked())
+        {
+            return $this->redirectToRoute('default_index_company');
+        }
 
         if ($form->isSubmitted())
         {
@@ -103,20 +143,104 @@ class DefaultController extends AbstractController
         ]);
     }
 
+     /**
+     * @Route("/modificar/sector", name="default_index_modificar_sector")
+     */
+    public function modifySector(Request $request, SectorRepository $sectorRepository): Response
+    {
+        $sector = $sectorRepository->find($request->query->get('id'));
+
+        $form = $this->createForm(SectorType::class, $sector);
+
+        $form->handleRequest($request);
+
+        if ($form->get('Cancelar')->isClicked())
+        {
+            return $this->redirectToRoute('default_index_sector');
+        }
+
+        if ($form->isSubmitted())
+        {
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($sector);
+
+            $em->flush();
+
+            return $this->redirectToRoute('default_index_sector');
+        }
+
+        return $this->render('default/sectorForm.html.twig', [
+            'sectorForm' => $form->createView()
+        ]);
+    }
+
     /**
-     * @Route("/eliminar", name="default_index_eliminar")
+     * @Route("/eliminar/empresa", name="default_index_eliminar_empresa")
      */
     public function deleteCompany(Request $request, EmpresaRepository $empresaRepository, EntityManagerInterface $entityManager): Response
     {
-        $empresa = $empresaRepository->find($request->query->get('id'));
 
-        dump($empresa);
+        if($request->query->has('id'))
+        {
+
+        $empresa = $empresaRepository->find($request->query->get('id'));
 
         $entityManager->remove($empresa);
 
         $entityManager->flush();
 
         return $this->redirectToRoute('default_index_company');
+
+        }
+
+        return $this->redirectToRoute('default_index_company');
+    }
+
+    /**
+     * @Route("/eliminar/sector", name="default_index_eliminar_sector")
+     */
+    public function deleteSector(Request $request, SectorRepository $sectorRepository, EntityManagerInterface $entityManager): Response
+    {
+
+        if($request->query->has('id'))
+        {
+
+        $sector = $sectorRepository->find($request->query->get('id'));
+
+        $entityManager->remove($sector);
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('default_index_sector');
+
+        }
+
+        return $this->redirectToRoute('default_index_sector');
+    }
+
+    /**
+     * @Route("/confirmar_eliminar/empresa", name="default_index_confirmar_eliminar_empresa")
+     */
+    public function redirectDeleteCompany(Request $request): Response
+    {
+        $id = $request->query->get('id');
+
+        return $this->render('default/deleteCompany.html.twig', [
+            'id' => $id
+        ]);
+    }
+
+    /**
+     * @Route("/confirmar_eliminar/sector", name="default_index_confirmar_eliminar_sector")
+     */
+    public function redirectDeleteSector(Request $request): Response
+    {
+        $id = $request->query->get('id');
+
+        return $this->render('default/deleteSector.html.twig', [
+            'id' => $id
+        ]);
     }
 
 }

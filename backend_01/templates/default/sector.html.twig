@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+    <button><a href="{{ path('default_index_crear_sector') }}">Añadir sector</a></button>
     <table>
         <thead>
             <tr>
@@ -15,6 +16,8 @@
         {% for sector in sectors %}
             <tr>
                 <td>{{ sector.Nombre }}</td>
+                <td><button><a href="{{ path('default_index_modificar_sector', { id: sector.id }) }}">Modificar</a></button></td>
+                <td><button><a href="{{ path('default_index_confirmar_eliminar_sector', { id: sector.id }) }}">Eliminar</a></button></td>
             </tr>
         {% endfor %}
         </tbody>
