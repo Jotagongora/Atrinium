@@ -18,6 +18,7 @@ class SectorRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Sector::class);
     }
+    
 
     // /**
     //  * @return Sector[] Returns an array of Sector objects

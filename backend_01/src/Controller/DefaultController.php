@@ -54,8 +54,11 @@ class DefaultController extends AbstractController
     /**
      * @Route("/crear/empresa", name="default_index_crear")
      */
-    public function createCompany(Request $request): Response
+    public function createCompany(Request $request, SectorRepository $sectorRepository): Response
     {
+
+        $sectors = $sectorRepository->findAll();
+
         $empresa = new Empresa();
 
         $form = $this->createForm(EmpresaType::class, $empresa);
@@ -74,6 +77,7 @@ class DefaultController extends AbstractController
         }
 
         return $this->render('default/form.html.twig', [
+            'sectors' => $sectors,
             'companyForm' => $form->createView()
         ]);
     }
@@ -83,6 +87,7 @@ class DefaultController extends AbstractController
      */
     public function createSector(Request $request): Response
     {
+
         $sector = new Sector;
 
         $form = $this->createForm(SectorType::class, $sector);
