@@ -16,8 +16,8 @@
                 </tr>
             </thead>
             <tbody>
-            {% for sector in sectors %}
-                <tr>
+            {% for sector in pagination %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
                     <td>{{ sector.Nombre }}</td>
                     <td><a href="{{ path('default_index_modificar_sector', { id: sector.id }) }}" class="btn btn-info">Modificar</a></td>
                     <td><a href="{{ path('default_index_confirmar_eliminar_sector', { id: sector.id }) }}" class="btn btn-danger">Eliminar</a></td>
@@ -25,5 +25,11 @@
             {% endfor %}
             </tbody>
         </table>
+        <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+        </div>
+        <div class="count">
+            {{ pagination.getTotalItemCount }}
+        </div>
     </div>
 {% endblock %}

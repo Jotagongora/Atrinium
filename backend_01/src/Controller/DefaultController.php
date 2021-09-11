@@ -35,7 +35,7 @@ class DefaultController extends AbstractController
     {
        
         $query = $empresaRepository->findAllCompanies();
-        
+
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
@@ -50,13 +50,19 @@ class DefaultController extends AbstractController
      /**
      * @Route("/sector", name="default_index_sector")
      */
-    public function sectors(SectorRepository $sectorRepository): Response
+    public function sectors(SectorRepository $sectorRepository, PaginatorInterface $paginator, Request $request): Response
     {
 
-        $sectores = $sectorRepository->findAll();
+        $query = $sectorRepository->findAllSectors();
+        
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            10 /*limit per page*/
+        );
 
         return $this->render('default/sector.html.twig', [
-            'sectors' => $sectores
+            'pagination' => $pagination
         ]);
     }
 

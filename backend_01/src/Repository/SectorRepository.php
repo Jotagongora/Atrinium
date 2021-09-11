@@ -18,6 +18,12 @@ class SectorRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Sector::class);
     }
+
+    public function findAllSectors() {
+        return $this->getEntityManager()
+            ->createQuery('  
+                SELECT u FROM App\Entity\Sector u')->getResult();
+    }
     
 
     // /**
