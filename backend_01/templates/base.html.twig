@@ -21,7 +21,7 @@
         {% block header %}{% endblock %}
         {% block body %}{% endblock %}
         {% for flash_message in app.session.flashbag.get('notice') %}
-            <div class="flash-notice">
+            <div class="flash-notice alert alert-danger">
                 {{ flash_message }}
             </div>
         {% endfor %}

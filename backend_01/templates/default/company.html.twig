@@ -19,8 +19,8 @@
                 </tr>
             </thead>
             <tbody>
-            {% for company in companies %}
-                <tr>
+            {% for company in pagination %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
                     <td>{{ company.Nombre }}</td>
                     <td>{{ company.Telefono }}</td>
                     <td>{{ company.Email }}</td>
@@ -31,5 +31,11 @@
             {% endfor %}
             </tbody>
         </table>
+        <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+        </div>
+        <div class="count">
+            {{ pagination.getTotalItemCount }}
+        </div>
     </div>
 {% endblock %}

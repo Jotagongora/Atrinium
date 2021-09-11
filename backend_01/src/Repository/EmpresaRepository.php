@@ -19,6 +19,12 @@ class EmpresaRepository extends ServiceEntityRepository
         parent::__construct($registry, Empresa::class);
     }
 
+    public function findAllCompanies() {
+        return $this->getEntityManager()
+            ->createQuery('  
+                SELECT u FROM App\Entity\Empresa u')->getResult();
+    }
+
     // /**
     //  * @return Empresa[] Returns an array of Empresa objects
     //  */
