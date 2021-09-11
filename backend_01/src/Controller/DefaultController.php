@@ -85,7 +85,7 @@ class DefaultController extends AbstractController
      /**
      * @Route("/crear/sector", name="default_index_crear_sector")
      */
-    public function createSector(Request $request): Response
+    public function createSector(Request $request, SectorRepository $sectorRepository): Response
     {
 
         $sector = new Sector;
@@ -101,13 +101,37 @@ class DefaultController extends AbstractController
 
         if ($form->isSubmitted())
         {
-            $em = $this->getDoctrine()->getManager();
+            $newSector = $sector->getNombre();
 
-            $em->persist($sector);
+            $result = $sectorRepository->findAll();
 
-            $em->flush();
+            $data = [];
 
-            return $this->redirectToRoute('default_index_sector');
+            foreach($result as $existingSector) {
+
+                $data[] = $existingSector->getNombre();
+                
+            }
+
+            if (in_array($newSector, $data)) {
+
+                $this->addFlash(
+                    'notice',
+                    '¡Ese sector ya existe!'
+                );
+
+                return $this->redirectToRoute('default_index_sector');
+
+            } else {
+
+                $em = $this->getDoctrine()->getManager();
+
+                $em->persist($sector);
+
+                $em->flush();
+
+                return $this->redirectToRoute('default_index_sector');
+            }
         }
 
         return $this->render('default/sectorForm.html.twig', [
