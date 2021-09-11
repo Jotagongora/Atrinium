@@ -109,11 +109,11 @@ class DefaultController extends AbstractController
 
             foreach($result as $existingSector) {
 
-                $data[] = $existingSector->getNombre();
+                $data[] = strtolower($existingSector->getNombre());
                 
             }
 
-            if (in_array($newSector, $data)) {
+            if (in_array(strtolower($newSector), $data)) {
 
                 $this->addFlash(
                     'notice',
@@ -229,7 +229,7 @@ class DefaultController extends AbstractController
     /**
      * @Route("/eliminar/sector", name="default_index_eliminar_sector")
      */
-    public function deleteSector(Request $request, SectorRepository $sectorRepository, EntityManagerInterface $entityManager): Response
+    public function deleteSector(Request $request, SectorRepository $sectorRepository, EntityManagerInterface $entityManager, EmpresaRepository $empresaRepository): Response
     {
 
         if($request->query->has('id'))
@@ -237,12 +237,26 @@ class DefaultController extends AbstractController
 
         $sector = $sectorRepository->find($request->query->get('id'));
 
-        $entityManager->remove($sector);
+        $data = $sector->getEmpresas();
 
-        $entityManager->flush();
+        if (sizeof($data) > 0) {
 
-        return $this->redirectToRoute('default_index_sector');
+            $this->addFlash(
+                'notice',
+                '¡Alguna empresa pertece al sector!. Elimina primero las empresas relacionadas para elimiar el sector'
+            );
 
+            return $this->redirectToRoute('default_index_sector');
+
+        } else {
+
+            $entityManager->remove($sector);
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('default_index_sector');
+
+            }
         }
 
         return $this->redirectToRoute('default_index_sector');
