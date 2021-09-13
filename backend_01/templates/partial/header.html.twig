@@ -1,5 +1,8 @@
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-md-lg navbar-dark bg-primary">
         <a href="{{ path('default_index') }}" class="navbar-brand">Página de inicio</a>
         <a href="{{ path('default_index_company') }}" class="navbar-brand">Empresa</a>
         <a href="{{ path('default_index_sector') }}" class="navbar-brand">Sector</a>
+        {% if app.user %}
+            <a href="{{ path('app_logout') }}" class="navbar-brand float-right">Cerrar sesión</a>
+        {% endif %}
     </nav><br>

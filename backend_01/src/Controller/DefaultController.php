@@ -21,7 +21,7 @@ use Knp\Component\Pager\PaginatorInterface;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/", name="default_index")
+     * @Route("/default", name="default_index")
      */
     public function index(): Response
     {
@@ -29,7 +29,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/empresas", name="default_index_company")
+     * @Route("/default/empresas", name="default_index_company")
      */
     public function companies(EmpresaRepository $empresaRepository, PaginatorInterface $paginator, Request $request, SectorRepository $sectorRepository): Response
     {
@@ -86,7 +86,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/crear/empresa", name="default_index_crear")
+     * @Route("/default/empresa/crear", name="default_index_crear")
      */
     public function createCompany(Request $request, SectorRepository $sectorRepository): Response
     {
@@ -117,7 +117,7 @@ class DefaultController extends AbstractController
     }
 
      /**
-     * @Route("/crear/sector", name="default_index_crear_sector")
+     * @Route("/sector/crear", name="default_index_crear_sector")
      */
     public function createSector(Request $request, SectorRepository $sectorRepository): Response
     {
@@ -175,7 +175,7 @@ class DefaultController extends AbstractController
 
 
      /**
-     * @Route("/modificar/empresa", name="default_index_modificar_empresa")
+     * @Route("/default/empresa/modificar", name="default_index_modificar_empresa")
      */
     public function modifyCompany(Request $request, EmpresaRepository $empresaRepository): Response
     {
@@ -207,7 +207,7 @@ class DefaultController extends AbstractController
     }
 
      /**
-     * @Route("/modificar/sector", name="default_index_modificar_sector")
+     * @Route("/sector/modificar", name="default_index_modificar_sector")
      */
     public function modifySector(Request $request, SectorRepository $sectorRepository): Response
     {
@@ -239,7 +239,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/eliminar/empresa", name="default_index_eliminar_empresa")
+     * @Route("/default/empresa/eliminar", name="default_index_eliminar_empresa")
      */
     public function deleteCompany(Request $request, EmpresaRepository $empresaRepository, EntityManagerInterface $entityManager): Response
     {
@@ -261,7 +261,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/eliminar/sector", name="default_index_eliminar_sector")
+     * @Route("/sector/eliminar", name="default_index_eliminar_sector")
      */
     public function deleteSector(Request $request, SectorRepository $sectorRepository, EntityManagerInterface $entityManager, EmpresaRepository $empresaRepository): Response
     {
@@ -297,7 +297,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/confirmar_eliminar/empresa", name="default_index_confirmar_eliminar_empresa")
+     * @Route("/default/empresa/confirmar_eliminar", name="default_index_confirmar_eliminar_empresa")
      */
     public function redirectDeleteCompany(Request $request): Response
     {
@@ -309,7 +309,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/confirmar_eliminar/sector", name="default_index_confirmar_eliminar_sector")
+     * @Route("/sector/confirmar_eliminar", name="default_index_confirmar_eliminar_sector")
      */
     public function redirectDeleteSector(Request $request): Response
     {
