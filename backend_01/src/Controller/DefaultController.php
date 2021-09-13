@@ -33,18 +33,34 @@ class DefaultController extends AbstractController
      */
     public function companies(EmpresaRepository $empresaRepository, PaginatorInterface $paginator, Request $request): Response
     {
+
+        if ($request->query->has('term')) {
+            
+            $query = $empresaRepository->findByTerm($request->query->get('term'));
+
+            $pagination = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1), /*page number*/
+                4 /*limit per page*/
+            );
+    
+            return $this->render('default/company.html.twig', [
+                'pagination' => $pagination
+            ]);
+        } else {
        
-        $query = $empresaRepository->findAllCompanies();
+            $query = $empresaRepository->findAllCompanies();
 
-        $pagination = $paginator->paginate(
-            $query, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
-        );
+            $pagination = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1), /*page number*/
+                4 /*limit per page*/
+            );
 
-        return $this->render('default/company.html.twig', [
-            'pagination' => $pagination
-        ]);
+            return $this->render('default/company.html.twig', [
+                'pagination' => $pagination
+            ]);
+        }
     }
 
      /**
@@ -58,7 +74,7 @@ class DefaultController extends AbstractController
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            4 /*limit per page*/
         );
 
         return $this->render('default/sector.html.twig', [

@@ -25,6 +25,20 @@ class EmpresaRepository extends ServiceEntityRepository
                 SELECT u FROM App\Entity\Empresa u')->getResult();
     }
 
+    public function findByTerm(string $term)
+    {
+        $queryBuilder = $this->createQueryBuilder('e');
+
+        $queryBuilder->where(
+            $queryBuilder->expr()->orX(
+                $queryBuilder->expr()->like('e.Nombre' , ':term')
+            )
+        )
+        ->setParameter('term', '%'.$term.'%');
+
+        return $queryBuilder->getQuery();
+    }
+
     // /**
     //  * @return Empresa[] Returns an array of Empresa objects
     //  */
