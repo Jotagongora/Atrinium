@@ -29,6 +29,14 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/admin", name="default_index_admin")
+     */
+    public function admin(): Response
+    {
+        return $this->render('default/admin.html.twig');
+    }
+
+    /**
      * @Route("/default/empresas", name="default_index_company")
      */
     public function companies(EmpresaRepository $empresaRepository, PaginatorInterface $paginator, Request $request, SectorRepository $sectorRepository): Response
