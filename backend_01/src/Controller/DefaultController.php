@@ -31,12 +31,13 @@ class DefaultController extends AbstractController
     /**
      * @Route("/empresas", name="default_index_company")
      */
-    public function companies(EmpresaRepository $empresaRepository, PaginatorInterface $paginator, Request $request): Response
+    public function companies(EmpresaRepository $empresaRepository, PaginatorInterface $paginator, Request $request, SectorRepository $sectorRepository): Response
     {
+        $sectors = $sectorRepository->findAll();
 
         if ($request->query->has('term')) {
             
-            $query = $empresaRepository->findByTerm($request->query->get('term'));
+            $query = $empresaRepository->findByTerm($request->query->get('term'), $request->query->get('id'));
 
             $pagination = $paginator->paginate(
                 $query, /* query NOT result */
@@ -45,7 +46,8 @@ class DefaultController extends AbstractController
             );
     
             return $this->render('default/company.html.twig', [
-                'pagination' => $pagination
+                'pagination' => $pagination,
+                'sectors' => $sectors
             ]);
         } else {
        
@@ -58,7 +60,8 @@ class DefaultController extends AbstractController
             );
 
             return $this->render('default/company.html.twig', [
-                'pagination' => $pagination
+                'pagination' => $pagination,
+                'sectors' => $sectors
             ]);
         }
     }

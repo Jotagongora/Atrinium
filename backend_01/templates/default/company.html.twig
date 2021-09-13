@@ -8,6 +8,12 @@
     <a href="{{ path('default_index_crear') }}" class="btn btn-primary mb-3 ml-3">Añadir empresa</a>
     <form class="form-inline mb-3" method="GET">
         <input type="text" name="term" class="form-control mr-sm-2"/>
+        <select name="id" class="form-control mr-3" style="width: 400px;">
+            <option value="" selected="selected">Selecciona un sector</option>
+            {% for sector in sectors %}
+                <option value="{{ sector.id }}">{{ sector.Nombre }}</option>
+            {% endfor %}
+        </select>
         <input type="submit" value="Buscar" class="btn btn-outline-primary my-2 my-sm-0"/>
     </form>
     <div class="table-responsive-xl">

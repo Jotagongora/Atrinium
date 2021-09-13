@@ -25,18 +25,50 @@ class EmpresaRepository extends ServiceEntityRepository
                 SELECT u FROM App\Entity\Empresa u')->getResult();
     }
 
-    public function findByTerm(string $term)
+    public function findByTerm(string $term, string $id)
+    {
+
+        if ($id != null){
+
+            $queryBuilder = $this->createQueryBuilder('e');
+
+            $queryBuilder->where('e.Sector = :id')
+            ->setParameter('id', $id);
+
+            $queryBuilder->andWhere(
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->like('e.Nombre' , ':term')
+                )
+            )
+            ->setParameter('term', '%'.$term.'%');
+
+            return $queryBuilder->getQuery();
+            
+        } else {
+
+            $queryBuilder = $this->createQueryBuilder('e');
+
+            $queryBuilder->Where(
+                $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->like('e.Nombre' , ':term')
+                )
+            )
+            ->setParameter('term', '%'.$term.'%');
+
+            return $queryBuilder->getQuery();
+        }
+    }
+
+    public function findBySector(string $id)
     {
         $queryBuilder = $this->createQueryBuilder('e');
 
-        $queryBuilder->where(
-            $queryBuilder->expr()->orX(
-                $queryBuilder->expr()->like('e.Nombre' , ':term')
-            )
-        )
-        ->setParameter('term', '%'.$term.'%');
+        $queryBuilder->where('e.Sector = :id');
+
+        $queryBuilder->setParameter('id', $id);
 
         return $queryBuilder->getQuery();
+
     }
 
     // /**
