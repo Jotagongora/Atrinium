@@ -1,0 +1,1 @@
+export const CountriesData = ["España", "Alemania", "Dinamarca", "Brasil", "Venezuela", "Francia", "Italia"] 
