@@ -8,6 +8,7 @@ use App\Entity\Empresa;
 use App\Entity\Sector;
 use App\Form\EmpresaType;
 use App\Form\SectorType;
+use App\Repository\AdminUserRepository;
 use App\Repository\EmpresaRepository;
 use App\Repository\SectorRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface;
-
 
 class DefaultController extends AbstractController
 {
@@ -31,9 +31,16 @@ class DefaultController extends AbstractController
     /**
      * @Route("/admin", name="default_index_admin")
      */
-    public function admin(): Response
+    public function admin(AdminUserRepository $UserRepository, Request $request): Response
     {
-        return $this->render('default/admin.html.twig');
+            
+        $users = $UserRepository->findAll();
+
+        return $this->render('default/admin.html.twig', [
+            'users' => $users
+        ]);
+        
+
     }
 
     /**

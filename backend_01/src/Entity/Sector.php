@@ -29,9 +29,15 @@ class Sector
      */
     private $empresas;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=AdminUser::class, mappedBy="Sector")
+     */
+    private $adminUsers;
+
     public function __construct()
     {
         $this->empresas = new ArrayCollection();
+        $this->adminUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,6 +82,33 @@ class Sector
             if ($empresa->getSector() === $this) {
                 $empresa->setSector(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AdminUser[]
+     */
+    public function getAdminUsers(): Collection
+    {
+        return $this->adminUsers;
+    }
+
+    public function addAdminUser(AdminUser $adminUser): self
+    {
+        if (!$this->adminUsers->contains($adminUser)) {
+            $this->adminUsers[] = $adminUser;
+            $adminUser->addSector($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdminUser(AdminUser $adminUser): self
+    {
+        if ($this->adminUsers->removeElement($adminUser)) {
+            $adminUser->removeSector($this);
         }
 
         return $this;

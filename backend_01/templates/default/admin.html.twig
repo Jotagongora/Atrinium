@@ -5,5 +5,22 @@
 {% endblock %}
 
 {% block body %}
-  
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_register') }}" class="navbar-brand">Crear usuarios</a>
+        {% endif %}
+        <div class="table-responsive-xl">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre de usuario</th>
+                    <th scope="col">Rol</th>          
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.email }}</td>
+                    <td>{% for role in user.roles %}[{{ role }}]{% endfor %}</td>
+                </tr>
+            {% endfor %}
 {% endblock %}

@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\AdminUserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=AdminUserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class AdminUser implements UserInterface
 {
@@ -33,6 +37,16 @@ class AdminUser implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Sector::class, inversedBy="adminUsers")
+     */
+    private $Sector;
+
+    public function __construct()
+    {
+        $this->Sector = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -113,5 +127,29 @@ class AdminUser implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Sector[]
+     */
+    public function getSector(): Collection
+    {
+        return $this->Sector;
+    }
+
+    public function addSector(Sector $sector): self
+    {
+        if (!$this->Sector->contains($sector)) {
+            $this->Sector[] = $sector;
+        }
+
+        return $this;
+    }
+
+    public function removeSector(Sector $sector): self
+    {
+        $this->Sector->removeElement($sector);
+
+        return $this;
     }
 }
