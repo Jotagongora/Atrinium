@@ -4,6 +4,8 @@ import './form.css';
 
 export default function Form() {
 
+    let select = document.querySelector('#select');
+
     const [personType, setPersonType] = useState("");
 
     const [nationality, setNationality] = useState("");
@@ -11,11 +13,15 @@ export default function Form() {
     function personTypeFunction (e) {
 
         setPersonType(e.target.value);
+
+        select.children[0].selected = true;
     }
 
     function nationalityFunction (e) {
 
         setNationality(e.target.value);
+
+        select.children[0].selected = true;
     }
 
 
@@ -53,11 +59,11 @@ export default function Form() {
                 </div>
                 <div className="fieldContainer" id="jurídica" style={{display: (personType === "jurídica") ? 'block' : 'none'}}>
                     <label className="label" htmlFor="societyName">Nombre de la sociedad</label>
-                    <input type="text" id="societyName"/>
+                    <input className="input" type="text" id="societyName"/>
                 </div>
                 <div className="fieldContainer">
-                    <select className="dropdown" name="document" id="empty" defaultValue="">
-                        <option value="">Identifación</option>
+                    <select className="dropdown" name="document" id="select" defaultValue="">
+                        <option value="" id="firstOption">Identifación</option>
                         <option value="nif" style={{display: (personType === "fisica" && nationality === "España") ? 'block' : 'none'}}>NIF</option>
                         <option value="cif" style={{display: (personType === "jurídica") ? 'block' : 'none'}}>CIF</option>
                         <option value="nie" style={{display: (personType === "fisica" && nationality === "España") ? 'block' : 'none'}}>NIE</option>
