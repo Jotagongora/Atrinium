@@ -6,6 +6,6 @@
 
 {% block body %}
     <p>¿Seguro que quiere eliminar el sector de la base de datos?</p>
-    <a href="{{ path('default_index_eliminar_sector') }}" class="btn btn-success">Cancelar</a>
+    <a href="{{ path('default_index_eliminar_sector') }}" class="btn btn-info">Volver</a>
     <a href="{{ path('default_index_eliminar_sector', { id: id }) }}" class="btn btn-danger">Eliminar</a>
 {% endblock %}
