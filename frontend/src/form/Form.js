@@ -4,7 +4,7 @@ import './form.css';
 
 export default function Form() {
 
-    let select = document.querySelector('#select');
+    // let select = document.querySelector('#select');
 
     const [personType, setPersonType] = useState("");
 
@@ -12,12 +12,16 @@ export default function Form() {
 
     function personTypeFunction (e) {
 
+        let select = document.querySelector('#select');
+
         setPersonType(e.target.value);
 
         select.children[0].selected = true;
     }
 
     function nationalityFunction (e) {
+
+        let select = document.querySelector('#select');
 
         setNationality(e.target.value);
 
